@@ -79,13 +79,13 @@ export default function SavedRoadmap({ params }: { params: { id: string } }) {
     <div className="container mx-auto px-4 py-8">
       <div className="mb-8">
         <button
-          onClick={() => router.push('/saved')}
+          onClick={() => router.push('/')}
           className="text-blue-500 hover:text-blue-600 mb-4 inline-flex items-center"
         >
           <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
           </svg>
-          Back to saved roadmaps
+          Back to home
         </button>
         <h1 className="text-3xl font-bold mb-2">{roadmap.project_description}</h1>
         <p className="text-sm text-gray-500">
