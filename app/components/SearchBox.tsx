@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Milestone from './Milestone';
 import { useAuth } from '../providers/AuthProvider';
 import { supabase } from '@/lib/supabase';
-
+import { useRouter } from 'next/navigation';
 interface Milestone {
   title: string;
   description: string;
@@ -17,6 +17,7 @@ interface RoadmapResponse {
 }
 
 export default function SearchBox() {
+  const router = useRouter();
   const [searchQuery, setSearchQuery] = useState('');
   const [roadmap, setRoadmap] = useState<RoadmapResponse | null>(null);
   const [loading, setLoading] = useState(false);
@@ -84,7 +85,7 @@ export default function SearchBox() {
           </div>
         ) : (
           <button
-            onClick={signIn}
+            onClick={() => router.push('/login')}
             className="px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
           >
             Sign in to save roadmaps
