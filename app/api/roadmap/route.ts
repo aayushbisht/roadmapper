@@ -10,7 +10,6 @@ import { google } from "@ai-sdk/google";
 export async function POST(request: Request) {
   try {
     const { projectDescription } = await request.json();
-    console.log(projectDescription);
 
     if (!projectDescription) {
       return NextResponse.json(

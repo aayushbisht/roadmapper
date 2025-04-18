@@ -65,6 +65,7 @@ export default function SearchBox() {
       // Store the roadmap if user is authenticated
       if (user) {
         await storeRoadmap(searchQuery, data);
+        console.log('Roadmap stored successfully');
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An error occurred');
