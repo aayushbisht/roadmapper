@@ -5,6 +5,7 @@ import { useAuth } from '../../providers/AuthProvider';
 import { supabase } from '@/lib/supabase';
 import Milestone from '../../components/Milestone';
 import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
 
 interface SavedRoadmap {
   id: string;
@@ -26,6 +27,7 @@ export default function SavedRoadmap({ params }: { params: { id: string } }) {
 
   useEffect(() => {
     if (!user) {
+      toast.error('Please sign in to view saved roadmaps');
       router.push('/');
       return;
     }
@@ -39,6 +41,7 @@ export default function SavedRoadmap({ params }: { params: { id: string } }) {
         .single();
 
       if (error) {
+        toast.error('Failed to load roadmap');
         console.error('Error fetching roadmap:', error);
         router.push('/saved');
         return;

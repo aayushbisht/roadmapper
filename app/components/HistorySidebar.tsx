@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase';
 import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
 
 interface RoadmapHistory {
   id: string;
@@ -12,13 +13,17 @@ interface RoadmapHistory {
 
 export default function HistorySidebar() {
   const [history, setHistory] = useState<RoadmapHistory[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
     const fetchHistory = async () => {
+      setLoading(true);
       const { data: { session } } = await supabase.auth.getSession();
-      if (!session?.user) return;
+      if (!session?.user) {
+        setLoading(false);
+        return;
+      }
 
       const { data, error } = await supabase
         .from('roadmaps')
@@ -27,7 +32,9 @@ export default function HistorySidebar() {
         .order('created_at', { ascending: false });
 
       if (error) {
+        toast.error('Failed to load roadmap history');
         console.error('Error fetching history:', error);
+        setLoading(false);
         return;
       }
 
@@ -53,9 +60,9 @@ export default function HistorySidebar() {
   };
 
   return (
-    <div className="w-80 h-screen bg-gray-50 border-r border-gray-200 flex flex-col">
-      <div className="p-4 border-b border-gray-200">
-        <h2 className="text-lg font-semibold text-gray-900">History</h2>
+    <div className="w-80 h-screen  bg-[#2a2a2a] flex flex-col">
+      <div className="p-4 ">
+        <h2 className="text-lg font-semibold text-[#b0b0b0]">History</h2>
       </div>
       
       {loading ? (

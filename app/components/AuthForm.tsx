@@ -2,75 +2,64 @@
 
 import { useState } from 'react';
 import { useAuth } from '@/app/providers/AuthProvider';
+import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
 
 export default function EmailAuth() {
+  const router = useRouter();
   const [isSignUp, setIsSignUp] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState<string | null>(null);
-  const [message, setMessage] = useState<string | null>(null);
   const { signInWithEmail, signUpWithEmail, resetPassword } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError(null);
-    setMessage(null);
 
     try {
       if (isSignUp) {
         const { error } = await signUpWithEmail(email, password);
         if (error) {
-          setError(error);
+          toast.error(error);
         } else {
-          setMessage('Check your email for the confirmation link!');
+          toast.success('Check your email for the confirmation link!');
         }
       } else {
         const { error } = await signInWithEmail(email, password);
         if (error) {
-          setError(error);
+          toast.error(error);
+        } else {
+          toast.success('Successfully signed in!');
+          router.push('/');
         }
       }
     } catch (err) {
-      setError('An unexpected error occurred');
+      toast.error('An unexpected error occurred');
     }
   };
 
   const handleResetPassword = async () => {
     if (!email) {
-      setError('Please enter your email address');
+      toast.error('Please enter your email address');
       return;
     }
 
-    setError(null);
     const { error } = await resetPassword(email);
     if (error) {
-      setError(error);
+      toast.error(error);
     } else {
-      setMessage('Password reset link sent to your email');
+      toast.success('Password reset link sent to your email');
     }
   };
 
   return (
-    <div className="w-full max-w-md mx-auto p-6 bg-white rounded-lg shadow-md">
-      <h2 className="text-2xl font-bold mb-6 text-center">
+    <div className="w-full max-w-md mx-auto p-6 bg-[#2a2a2a] rounded-lg shadow-md">
+      <h2 className="text-2xl text-[#b0b0b0] mb-6 text-center">
         {isSignUp ? 'Create Account' : 'Sign In'}
       </h2>
-      
-      {error && (
-        <div className="mb-4 p-3 bg-red-100 text-red-700 rounded">
-          {error}
-        </div>
-      )}
-      
-      {message && (
-        <div className="mb-4 p-3 bg-green-100 text-green-700 rounded">
-          {message}
-        </div>
-      )}
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+          <label htmlFor="email" className="block text-sm font-medium text-[#b0b0b0]">
             Email
           </label>
           <input
@@ -78,13 +67,13 @@ export default function EmailAuth() {
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+            className="mt-1 px-2 py-2 block w-full rounded-md border-gray-300 shadow-sm shadow-[#232121] focus:border-blue-500 focus:ring-blue-500"
             required
           />
         </div>
 
         <div>
-          <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+          <label htmlFor="password" className="block text-sm font-medium text-[#b0b0b0]">
             Password
           </label>
           <input
@@ -92,23 +81,23 @@ export default function EmailAuth() {
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+            className="mt-1 px-2 py-2 block w-full rounded-md border-gray-300 shadow-sm shadow-[#232121] focus:border-gray-800 focus:ring-gray-700"
             required
           />
         </div>
 
         <button
           type="submit"
-          className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+          className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-[#b0b0b0] bg-[#303030] hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
         >
           {isSignUp ? 'Sign Up' : 'Sign In'}
         </button>
       </form>
 
-      <div className="mt-4 text-center space-y-2">
+      <div className="mt-4 space-y-2">
         <button
           onClick={() => setIsSignUp(!isSignUp)}
-          className="text-sm text-blue-600 hover:text-blue-500"
+          className="text-sm text-[#b0b0b0] hover:text-[#daa7a7]"
         >
           {isSignUp ? 'Already have an account? Sign In' : "Don't have an account? Sign Up"}
         </button>
@@ -116,7 +105,7 @@ export default function EmailAuth() {
         {!isSignUp && (
           <button
             onClick={handleResetPassword}
-            className="block w-full text-sm text-blue-600 hover:text-blue-500"
+            className="block w-full text-sm text-[#b0b0b0] hover:text-[#daa7a7]"
           >
             Forgot your password?
           </button>

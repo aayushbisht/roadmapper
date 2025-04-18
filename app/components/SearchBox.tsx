@@ -5,6 +5,8 @@ import Milestone from './Milestone';
 import { useAuth } from '../providers/AuthProvider';
 import { supabase } from '@/lib/supabase';
 import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
+
 interface Milestone {
   title: string;
   description: string;
@@ -21,8 +23,7 @@ export default function SearchBox() {
   const [searchQuery, setSearchQuery] = useState('');
   const [roadmap, setRoadmap] = useState<RoadmapResponse | null>(null);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const { user, signIn } = useAuth();
+  const { user } = useAuth();
 
   const storeRoadmap = async (projectDescription: string, roadmap: RoadmapResponse) => {
     if (!user) return;
@@ -37,14 +38,16 @@ export default function SearchBox() {
       });
 
     if (error) {
+      toast.error('Failed to save roadmap');
       console.error('Error storing roadmap:', error);
+    } else {
+      toast.success('Roadmap Generated');
     }
   };
 
   const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    setError(null);
     setRoadmap(null);
 
     try {
@@ -66,10 +69,9 @@ export default function SearchBox() {
       // Store the roadmap if user is authenticated
       if (user) {
         await storeRoadmap(searchQuery, data);
-        console.log('Roadmap stored successfully');
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'An error occurred');
+      toast.error('Failed to generate roadmap. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -107,12 +109,6 @@ export default function SearchBox() {
         <div className="text-center py-4">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500 mx-auto"></div>
           <p className="mt-2">Generating your roadmap...</p>
-        </div>
-      )}
-
-      {error && (
-        <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
-          {error}
         </div>
       )}
 
