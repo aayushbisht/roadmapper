@@ -2,6 +2,7 @@
 
 import { useAuth } from '@/app/providers/AuthProvider';
 import EmailAuth from '@/app/components/AuthForm';
+import Image from 'next/image';
 
 export default function LoginPage() {
   const { signInWithGoogle } = useAuth();
@@ -9,8 +10,8 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#1a1a1a] py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
-        <div>
-          <h1 className="mt-6 text-center text-3xl  text-[#b0b0b0]">
+        <div >
+          <h1 className="mt-6 text-center text-3xl font-semibold  text-[#b0b0b0]">
             Roadmapper
           </h1>
         </div>
