@@ -79,7 +79,8 @@ export default function SearchBox() {
 
   return (
     <div className="w-full max-w-4xl">
-      <div className="flex justify-between items-center mb-6">
+      
+      {/* <div className="flex justify-between items-center mb-6">
         <h2 className="text-2xl font-semibold text-gray-900">Project Roadmap Generator</h2>
         {user ? (
           <div className="flex items-center gap-2">
@@ -93,7 +94,7 @@ export default function SearchBox() {
             Sign in to save roadmaps
           </button>
         )}
-      </div>
+      </div> */}
 
       <form onSubmit={handleSearch} className="mb-8">
         <input

@@ -4,6 +4,7 @@ import "./globals.css";
 import { AuthProvider } from './providers/AuthProvider';
 import HistorySidebar from './components/HistorySidebar';
 import { Toaster } from 'sonner';
+import SidebarToggle from './components/SidebarToggle';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -33,7 +34,7 @@ export default function RootLayout({
         <AuthProvider>
           <div className="flex h-screen">
             <HistorySidebar />
-            <main className="flex-1 overflow-y-auto">
+            <main className="flex-1 overflow-y-auto relative">
               {children}
             </main>
           </div>

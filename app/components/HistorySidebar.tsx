@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
+import SidebarToggle from './SidebarToggle';
 
 interface RoadmapHistory {
   id: string;
@@ -60,8 +61,8 @@ export default function HistorySidebar() {
   };
 
   return (
-    <div className="w-80 h-screen  bg-[#2a2a2a] flex flex-col">
-      <div className="p-4 ">
+    <div className="sidebar w-80 h-screen bg-[#2a2a2a] flex flex-col transition-all duration-300">
+      <div className="p-4">
         <h2 className="text-lg font-semibold text-[#b0b0b0]">History</h2>
       </div>
       
