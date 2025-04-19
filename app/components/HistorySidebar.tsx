@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import SidebarToggle from './SidebarToggle';
 import Image from 'next/image';
+import Link from 'next/link';
 
 interface RoadmapHistory {
   id: string;
@@ -66,9 +67,11 @@ export default function HistorySidebar() {
   };
 
   return (
-    <div className="sidebar w-80 h-screen bg-[#2a2a2a] flex flex-col transition-all duration-300">
+    <div className="sidebar w-60 h-screen bg-[#2a2a2a] flex flex-col transition-all duration-300">
       <div className="p-4">
+        <Link href="/">
         <Image src="/logo-final.png" alt="logo" width={35} height={35} />
+        </Link>
         {/* <h2 className="text-lg font-semibold text-[#b0b0b0]">History</h2> */}
       </div>
       
@@ -88,7 +91,7 @@ export default function HistorySidebar() {
                 <button
                   key={item.id}
                   onClick={() => router.push(`/saved/${item.id}`)}
-                  className="w-full p-4 text-left hover:bg-gray-100 transition-colors duration-150"
+                  className="w-full p-4 text-left hover:bg-[#3a3a3a] transition-colors duration-150"
                 >
                   <div className="flex flex-col gap-1">
                     <p className="text-sm text-[#b0b0b0] font-medium">
