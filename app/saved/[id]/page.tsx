@@ -19,7 +19,14 @@ interface SavedRoadmap {
   created_at: string;
 }
 
-export default function SavedRoadmap({ params }: { params: { id: string } }) {
+interface PageProps {
+  params: {
+    id: string;
+  };
+  searchParams: { [key: string]: string | string[] | undefined };
+}
+
+export default function SavedRoadmap({ params }: PageProps) {
   const { user } = useAuth();
   const [roadmap, setRoadmap] = useState<SavedRoadmap | null>(null);
   const [loading, setLoading] = useState(true);
