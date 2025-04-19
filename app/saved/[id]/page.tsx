@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useAuth } from '../../providers/AuthProvider';
 import { supabase } from '@/lib/supabase';
 import Milestone from '../../components/Milestone';
-import { useRouter } from 'next/navigation';
+import { useRouter, useParams } from 'next/navigation';
 import { toast } from 'sonner';
 
 interface SavedRoadmap {
@@ -19,18 +19,14 @@ interface SavedRoadmap {
   created_at: string;
 }
 
-interface PageProps {
-  params: {
-    id: string;
-  };
-  searchParams: { [key: string]: string | string[] | undefined };
-}
-
-export default function SavedRoadmap({ params }: PageProps) {
+export default function SavedRoadmap() {
   const { user } = useAuth();
   const [roadmap, setRoadmap] = useState<SavedRoadmap | null>(null);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
+  const params = useParams();
+  const id = params?.id as string;
+
   const capitalizeFirstLetter = (string: string) => {
     return string.charAt(0).toUpperCase() + string.slice(1);
   };
@@ -51,7 +47,7 @@ export default function SavedRoadmap({ params }: PageProps) {
       const { data, error } = await supabase
         .from('roadmaps')
         .select('*')
-        .eq('id', params.id)
+        .eq('id', id)
         .eq('user_id', user.id)
         .single();
 
@@ -67,7 +63,7 @@ export default function SavedRoadmap({ params }: PageProps) {
     };
 
     fetchRoadmap();
-  }, [user, params.id, router]);
+  }, [user, id, router]);
 
   if (loading) {
     return (
