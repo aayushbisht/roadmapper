@@ -5,6 +5,7 @@ import { supabase } from '@/lib/supabase';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import SidebarToggle from './SidebarToggle';
+import Image from 'next/image';
 
 interface RoadmapHistory {
   id: string;
@@ -55,15 +56,20 @@ export default function HistorySidebar() {
     });
   };
 
+  const capitalizeFirstLetter = (string: string) => {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  };
+
   const truncateDescription = (description: string) => {
-    if (description.length <= 50) return description;
-    return description.substring(0, 50) + '...';
+    if (description.length <= 50) return capitalizeFirstLetter(description);
+    return capitalizeFirstLetter(description.substring(0, 50)) + '...';
   };
 
   return (
     <div className="sidebar w-80 h-screen bg-[#2a2a2a] flex flex-col transition-all duration-300">
       <div className="p-4">
-        <h2 className="text-lg font-semibold text-[#b0b0b0]">History</h2>
+        <Image src="/logo-final.png" alt="logo" width={35} height={35} />
+        {/* <h2 className="text-lg font-semibold text-[#b0b0b0]">History</h2> */}
       </div>
       
       {loading ? (
@@ -73,7 +79,7 @@ export default function HistorySidebar() {
       ) : (
         <div className="flex-1 overflow-y-auto">
           {history.length === 0 ? (
-            <div className="p-4 text-center text-gray-500">
+            <div className="p-4 text-center text-[#b0b0b0]">
               No roadmaps yet
             </div>
           ) : (
@@ -85,7 +91,7 @@ export default function HistorySidebar() {
                   className="w-full p-4 text-left hover:bg-gray-100 transition-colors duration-150"
                 >
                   <div className="flex flex-col gap-1">
-                    <p className="text-sm text-gray-900 font-medium">
+                    <p className="text-sm text-[#b0b0b0] font-medium">
                       {truncateDescription(item.project_description)}
                     </p>
                     <p className="text-xs text-gray-500">
